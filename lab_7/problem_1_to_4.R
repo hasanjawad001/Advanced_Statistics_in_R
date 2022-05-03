@@ -149,20 +149,35 @@ print(p_value_cage_pca1) ## 0.992
 print(p_value_cage_pca2) ## 1.63e-07
 
 ## 03 (B) for genotype, use a t-test
-x_gt <- factor(col_gt) 
-p_value_gt_pca1 <- pairwise.t.test(y_pca1, x_gt, p.adjust.method='BH')$p.value
-p_value_gt_pca2 <- pairwise.t.test(y_pca2, x_gt, p.adjust.method='BH')$p.value
+genotype <- myT$genotype
+timepoint <- myT$time
+myFrame2 <- data.frame(y_pca1, y_pca2, genotype, timepoint)
 
-print(p_value_gt_pca1) ## 0.926
-print(p_value_gt_pca2) ## 3.54e-10
+a_pca1=myFrame2[myFrame2$genotype=="WT",]$y_pca1
+b_pca1=myFrame2[myFrame2$genotype=="10-/-",]$y_pca1
+p_value_genotype_pca1 = t.test(a_pca1, b_pca1)$p.value
+print(p_value_genotype_pca1) ## 0.929701
+
+a_pca2=myFrame2[myFrame2$genotype=="WT",]$y_pca2
+b_pca2=myFrame2[myFrame2$genotype=="10-/-",]$y_pca2
+p_value_genotype_pca2 = t.test(a_pca2, b_pca2)$p.value
+print(p_value_genotype_pca2) ## 1.274344e-10
 
 ## 03 (C) for timepoint, use a t-test
-x_time <- factor(col_time) 
-p_value_time_pca1 <- pairwise.t.test(y_pca1, x_time, p.adjust.method='BH')$p.value
-p_value_time_pca2 <- pairwise.t.test(y_pca2, x_time, p.adjust.method='BH')$p.value
+genotype <- myT$genotype
+timepoint <- myT$time
+myFrame2 <- data.frame(y_pca1, y_pca2, genotype, timepoint)
 
-print(p_value_time_pca1) ## 2.40e-31
-print(p_value_time_pca2) ## 0.428
+a_pca1=myFrame2[myFrame2$timepoint=="PRE",]$y_pca1
+b_pca1=myFrame2[myFrame2$timepoint=="POST",]$y_pca1
+p_value_timepoint_pca1 = t.test(a_pca1, b_pca1)$p.value
+print(p_value_timepoint_pca1) ## 2.519974e-29
+
+a_pca2=myFrame2[myFrame2$timepoint=="PRE",]$y_pca2
+b_pca2=myFrame2[myFrame2$timepoint=="POST",]$y_pca2
+p_value_timepoint_pca2 = t.test(a_pca2, b_pca2)$p.value
+print(p_value_timepoint_pca2) ## 0.4268188
+
 ##
 ##
 ## Which variable seems to be most associated with the first PCA axis?
